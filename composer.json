@@ -1,0 +1,16 @@
+{
+    "name": "asagalo/json-handler",
+    "description": "A simple json handler",
+    "license": "MIT",
+    "keywords": ["json"],
+    "require-dev": {
+        "phpunit/phpunit": "^5.1"
+    },
+    "authors": [
+        {
+            "name": "Erico Pedroso",
+            "email": "erico.pedroso@vindi.com.br"
+        }
+    ],
+    "require": {}
+}
