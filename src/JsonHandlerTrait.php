@@ -23,9 +23,7 @@ trait JsonHandlerTrait
      **/
     public function jsonToArray(string $json) : array
     {
-        $array = self::decodeJson($json, true);
-
-        return $array;
+        return (array) self::jsonToObject($json);
     }
 
     /**
@@ -37,24 +35,11 @@ trait JsonHandlerTrait
      **/
     public function jsonToObject(string $json) : object
     {
-        $object = self::decodeJson($json);
+        $object = json_decode($json);
 
-        return $object;
-    }
-
-    /**
-     * @param string  $json
-     * @param boolean $toArray
-     *
-     * @return array|object
-     */
-    private function decodeJson(string $json, bool $toArray = false) : array
-    {
-        $data = json_decode($json, $toArray);
-
-        if(empty($data))
+        if(empty($object))
             throw new \InvalidArgumentException(json_last_error_msg(), json_last_error());
 
-        return $data;
+        return $object;
     }
 }
