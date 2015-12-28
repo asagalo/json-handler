@@ -11,17 +11,35 @@ class JsonObject
      */
     protected $data;
 
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
+    /**
+     * @var boolean
+     **/
+    protected $valid = true;
 
     /**
-     * @param string $json
-     */
-    public static function createFromString($json)
+     * @var string
+     **/
+    protected $errorMessage = '';
+
+    /**
+     * @var int
+     **/
+    protected $errorCode = 0;
+
+    public function __construct($data)
     {
-        return new self(self::jsonToArray($json));
+        if(is_array($data)) {
+            $this->data = $data;
+            return ;
+        }
+
+        try {
+            $this->data = $this->jsonToArray($data);
+        } catch (\InvalidArgumentException $e) {
+            $this->valid        = false;
+            $this->errorMessage = $e->getMessage();
+            $this->errorCode    = $e->getCode();
+        }
     }
 
     /**
@@ -41,5 +59,29 @@ class JsonObject
     public function toArray()
     {
         return $this->data;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isValid()
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getErrorCode()
+    {
+        return $this->errorCode;
     }
 }

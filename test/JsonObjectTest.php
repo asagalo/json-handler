@@ -6,26 +6,58 @@ class JsonObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function assertPreConditions()
     {
-        $jsonObject = JsonObject::createFromString('{"a":"b"}');
+        $jsonObject = new JsonObject('{"a":"b"}');
         $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $jsonObject);
     }
 
     public function testAccessJsonData()
     {
-        $jsonObject = JsonObject::createFromString('{"a":"b"}');
+        $jsonObject = new JsonObject('{"a":"b"}');
         $this->assertEquals($jsonObject->a, 'b');
     }
 
     public function testAccessUndefinedProperty()
     {
-        $jsonObject = JsonObject::createFromString('{"a":"b"}');
+        $jsonObject = new JsonObject('{"a":"b"}');
         $this->setExpectedException('OutOfRangeException', 'The b doesn\'t exists!');
         $jsonObject->b;
     }
 
     public function testJsonObjectToArray()
     {
-        $jsonObject = JsonObject::createFromString('{"a":"b"}');
+        $jsonObject = new JsonObject('{"a":"b"}');
         $this->assertSame($jsonObject->toArray(), ['a' => 'b']);
+    }
+
+    public function testIsValidMethodWithJsonErrorSyntax()
+    {
+        $jsonObject = new JsonObject('{a":b}');
+        $this->assertFalse($jsonObject->isValid());
+    }
+
+    public function testIsValidMethodWithNoJsonErrorSyntax()
+    {
+        $jsonObject = new JsonObject('{"a":"b"}');
+        $this->assertTrue($jsonObject->isValid());
+    }
+
+    public function testConstructJsonWithAnArray()
+    {
+        $jsonObject = new JsonObject(['a' => 'b']);
+
+        $this->assertTrue($jsonObject->isValid());
+        $this->assertSame($jsonObject->toArray(), ['a' => 'b']);
+    }
+
+    public function testGetLastJsonParseErrorMessage()
+    {
+        $jsonObject = new JsonObject('{a":b}');
+        $this->assertEquals('quoted object property name expected', $jsonObject->getErrorMessage());
+    }
+
+    public function testGetLastJsonParseErrorCode()
+    {
+        $jsonObject = new JsonObject('{a":b}');
+        $this->assertEquals(JSON_ERROR_SYNTAX, $jsonObject->getErrorCode());
     }
 }
