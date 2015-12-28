@@ -12,5 +12,10 @@
             "email": "erico.pedroso@vindi.com.br"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Asagalo\\JsonHandler\\": "src/"
+        }
+    },
     "require": {}
 }
