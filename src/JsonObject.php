@@ -2,7 +2,7 @@
 
 namespace Asagalo\JsonHandler;
 
-class JsonObject
+class JsonObject implements \IteratorAggregate
 {
     use JsonHandlerTrait;
 
@@ -83,5 +83,13 @@ class JsonObject
     public function getErrorCode() : int
     {
         return $this->errorCode;
+    }
+
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator() : \ArrayIterator
+    {
+        return new ArrayIterator($this->data);
     }
 }
