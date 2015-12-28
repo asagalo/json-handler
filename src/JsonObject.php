@@ -56,7 +56,7 @@ class JsonObject
     /**
      * @return array
      **/
-    public function toArray()
+    public function toArray() : array
     {
         return $this->data;
     }
@@ -64,7 +64,7 @@ class JsonObject
     /**
      * @return boolean
      */
-    public function isValid()
+    public function isValid() : bool
     {
         return $this->valid;
     }
@@ -72,7 +72,7 @@ class JsonObject
     /**
      * @return string
      */
-    public function getErrorMessage()
+    public function getErrorMessage() : string
     {
         return $this->errorMessage;
     }
@@ -80,7 +80,7 @@ class JsonObject
     /**
      * @return int
      */
-    public function getErrorCode()
+    public function getErrorCode() : int
     {
         return $this->errorCode;
     }
