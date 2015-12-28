@@ -48,7 +48,7 @@ trait JsonHandlerTrait
      *
      * @return array|object
      */
-    private function decodeJson(string $json, boolean $toArray) : array
+    private function decodeJson(string $json, bool $toArray) : array
     {
         $data = json_decode($json, $toArray ?? false);
 
