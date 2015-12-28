@@ -34,4 +34,12 @@ class JsonObject
 
         return $this->data[$property];
     }
+
+    /**
+     * @return array
+     **/
+    public function toArray()
+    {
+        return $this->data;
+    }
 }

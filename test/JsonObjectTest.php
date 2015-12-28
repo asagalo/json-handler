@@ -4,26 +4,28 @@ namespace Asagalo\JsonHandler;
 
 class JsonObjectTest extends \PHPUnit_Framework_TestCase
 {
-    protected $jsonObject;
-
-    public function setUp()
-    {
-        $this->jsonObject = JsonObject::createFromString('{"a":"b"}');
-    }
-
     public function assertPreConditions()
     {
-        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $this->jsonObject);
+        $jsonObject = JsonObject::createFromString('{"a":"b"}');
+        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $jsonObject);
     }
 
     public function testAccessJsonData()
     {
-        $this->assertEquals($this->jsonObject->a, 'b');
+        $jsonObject = JsonObject::createFromString('{"a":"b"}');
+        $this->assertEquals($jsonObject->a, 'b');
     }
 
     public function testAccessUndefinedProperty()
     {
+        $jsonObject = JsonObject::createFromString('{"a":"b"}');
         $this->setExpectedException('OutOfRangeException', 'The b doesn\'t exists!');
-        $this->jsonObject->b;
+        $jsonObject->b;
+    }
+
+    public function testJsonObjectToArray()
+    {
+        $jsonObject = JsonObject::createFromString('{"a":"b"}');
+        $this->assertSame($jsonObject->toArray(), ['a' => 'b']);
     }
 }
