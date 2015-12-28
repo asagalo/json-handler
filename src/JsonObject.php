@@ -6,6 +6,9 @@ class JsonObject
 {
     use JsonHandlerTrait;
 
+    /**
+     * @var array json data
+     */
     protected $data;
 
     public function __construct(array $data)
@@ -13,11 +16,17 @@ class JsonObject
         $this->data = $data;
     }
 
-    public static function createFromString($jsonString)
+    /**
+     * @param string $json
+     */
+    public static function createFromString($json)
     {
-        return new self(self::jsonToArray($jsonString));
+        return new self(self::jsonToArray($json));
     }
 
+    /**
+     * Method to access json data
+     */
     public function __get($property)
     {
         if(false === key_exists($property, $this->data))
