@@ -60,4 +60,18 @@ class JsonObjectTest extends \PHPUnit_Framework_TestCase
         $jsonObject = new JsonObject('{a":b}');
         $this->assertEquals(JSON_ERROR_SYNTAX, $jsonObject->getErrorCode());
     }
+
+    public function testJsonIteration()
+    {
+        $expected = [1,2,3];
+
+        $jsonObject = new JsonObject('{"a":1,"b":2,"c":3}');
+        
+        $returned = [];
+
+        foreach($jsonObject as $value)
+            $returned[] = $value;
+
+        $this->assertSame($expected, $returned);
+    }
 }
