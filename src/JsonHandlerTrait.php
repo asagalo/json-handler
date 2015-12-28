@@ -48,9 +48,9 @@ trait JsonHandlerTrait
      *
      * @return array|object
      */
-    private function decodeJson(string $json, bool $toArray) : array
+    private function decodeJson(string $json, bool $toArray = false) : array
     {
-        $data = json_decode($json, $toArray ?? false);
+        $data = json_decode($json, $toArray);
 
         if(empty($data))
             throw new \InvalidArgumentException(json_last_error_msg(), json_last_error());
