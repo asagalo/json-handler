@@ -23,7 +23,7 @@ trait JsonHandlerTrait
      **/
     public function jsonToArray($json)
     {
-        $array = self::decodeJsonToObjectOrArray($json, true);
+        $array = self::decodeJson($json, true);
 
         return $array;
     }
@@ -37,7 +37,7 @@ trait JsonHandlerTrait
      **/
     public function jsonToObject($json)
     {
-        $object = self::decodeJsonToObjectOrArray($json);
+        $object = self::decodeJson($json);
 
         return $object;
     }
@@ -48,7 +48,7 @@ trait JsonHandlerTrait
      *
      * @return array|object
      */
-    private function decodeJsonToObjectOrArray($json, $toArray = false)
+    private function decodeJson($json, $toArray = false)
     {
         $data = json_decode($json, $toArray);
 
