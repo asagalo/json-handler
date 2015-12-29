@@ -2,7 +2,7 @@
 
 namespace Asagalo\JsonHandler;
 
-class JsonObject implements \IteratorAggregate
+class JsonObject implements \IteratorAggregate, \ArrayAccess
 {
     use JsonHandlerTrait;
 
@@ -28,13 +28,13 @@ class JsonObject implements \IteratorAggregate
 
     public function __construct($data = [])
     {
-        if(is_array($data)) {
-            $this->data = $data;
+        if(is_array($data) || is_object($data)) {
+            $this->buildData((array) $data);
             return ;
         }
 
         try {
-            $this->data = $this->jsonToArray($data);
+            $this->buildData($this->jsonToArray($data));
         } catch (\InvalidArgumentException $e) {
             $this->valid        = false;
             $this->errorMessage = $e->getMessage();
@@ -102,5 +102,62 @@ class JsonObject implements \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->data);
+    }
+
+    /**
+     * @param mixed
+     */
+    private function buildData($data)
+    {
+        foreach ($data as $key => $value) {
+
+            if(is_object($value)) {
+                $this->data[$key] = new self($value);
+                continue;
+            }
+
+            if(is_array($value)) {
+                $this->data[$key] = new self($value);
+                continue;
+            }
+
+            $this->data[$key] = $value;
+        }
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetGet($offset)
+    {
+        if($this->offsetExists($offset))
+            return $this->data[$offset];
+
+        return null;
+    }
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->data[$offset] = $value;
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
     }
 }

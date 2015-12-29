@@ -2,6 +2,8 @@
 
 namespace Asagalo\JsonHandler;
 
+use Asagalo\JsonHandler\JsonObject;
+
 class JsonObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function assertPreConditions()
@@ -85,5 +87,23 @@ class JsonObjectTest extends \PHPUnit_Framework_TestCase
             $returned[] = $value;
 
         $this->assertSame($expected, $returned);
+    }
+
+    public function testRecursiveInstancesOfJsonObjectAndArrayTypes()
+    {
+        $json = new JsonObject('{"property":1,"object":{"property":2,"object":{"property":3,"array":[{"object":{"property":2}}]}}}');
+
+        //@TODO improve this assertions
+        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json->object);
+        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json->object->object);
+        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json->object->object->array);
+    }
+
+    public function testCreateJsonArray()
+    {
+        $json = new JsonObject('["a","b"]');
+
+        //@TODO improve this assertions
+        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json);
     }
 }
