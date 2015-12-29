@@ -56,7 +56,7 @@ class JsonObject implements \IteratorAggregate
     /**
      * @return array
      **/
-    public function toArray() : array
+    public function toArray()
     {
         return $this->data;
     }
@@ -64,7 +64,7 @@ class JsonObject implements \IteratorAggregate
     /**
      * @return boolean
      */
-    public function isValid() : bool
+    public function isValid()
     {
         return $this->valid;
     }
@@ -72,7 +72,7 @@ class JsonObject implements \IteratorAggregate
     /**
      * @return string
      */
-    public function getErrorMessage() : string
+    public function getErrorMessage()
     {
         return $this->errorMessage;
     }
@@ -80,7 +80,7 @@ class JsonObject implements \IteratorAggregate
     /**
      * @return int
      */
-    public function getErrorCode() : int
+    public function getErrorCode()
     {
         return $this->errorCode;
     }
@@ -88,7 +88,7 @@ class JsonObject implements \IteratorAggregate
     /**
      * @return ArrayIterator
      */
-    public function getIterator() : \ArrayIterator
+    public function getIterator()
     {
         return new \ArrayIterator($this->data);
     }
