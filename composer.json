@@ -17,5 +17,8 @@
             "Asagalo\\JsonHandler\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "php": ">=5.4.0",
+        "ext-json": "*"
+    }
 }
