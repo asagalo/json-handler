@@ -6,7 +6,7 @@ class JsonObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function assertPreConditions()
     {
-        $jsonObject = new JsonObject('{"a":"b"}');
+        $jsonObject = new JsonObject();
         $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $jsonObject);
     }
 

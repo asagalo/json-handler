@@ -26,7 +26,7 @@ class JsonObject implements \IteratorAggregate
      **/
     protected $errorCode = 0;
 
-    public function __construct($data)
+    public function __construct($data = [])
     {
         if(is_array($data)) {
             $this->data = $data;
