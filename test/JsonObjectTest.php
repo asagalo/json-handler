@@ -16,6 +16,18 @@ class JsonObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($jsonObject->a, 'b');
     }
 
+    public function testSetJsonData()
+    {
+        $jsonObject    = new JsonObject('{"a":"b"}');
+        $jsonObject->b = 'a';
+
+        $this->assertEquals($jsonObject->b, 'a');
+        $this->assertEquals($jsonObject->a, 'b');
+
+        $jsonObject->a = 'c';
+        $this->assertEquals($jsonObject->a, 'c');
+    }
+
     public function testAccessUndefinedProperty()
     {
         $jsonObject = new JsonObject('{"a":"b"}');
@@ -66,7 +78,7 @@ class JsonObjectTest extends \PHPUnit_Framework_TestCase
         $expected = [1,2,3];
 
         $jsonObject = new JsonObject('{"a":1,"b":2,"c":3}');
-        
+
         $returned = [];
 
         foreach($jsonObject as $value)

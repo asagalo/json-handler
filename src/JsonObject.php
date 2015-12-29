@@ -43,7 +43,9 @@ class JsonObject implements \IteratorAggregate
     }
 
     /**
-     * Method to access json data
+     * @param mixed $property
+     *
+     * @return mixed
      */
     public function __get($property)
     {
@@ -51,6 +53,15 @@ class JsonObject implements \IteratorAggregate
             throw new \OutOfRangeException('The ' . $property . ' doesn\'t exists!');
 
         return $this->data[$property];
+    }
+
+    /**
+     * @param string $property
+     * @param mixed  $value
+     */
+    public function __set($property, $value)
+    {
+        $this->data[$property] = $value;
     }
 
     /**
