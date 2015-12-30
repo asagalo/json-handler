@@ -91,19 +91,59 @@ class JsonObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testRecursiveInstancesOfJsonObjectAndArrayTypes()
     {
-        $json = new JsonObject('{"property":1,"object":{"property":2,"object":{"property":3,"array":[{"object":{"property":2}}]}}}');
+        $json = new JsonObject('
+        {
+            "property": 1,
+            "array": [2, 3],
+        	"object": {
+        		"property": 2,
+        		"object": {
+        			"property": 3
+        		}
+        	}
+        }
+        ');
 
-        //@TODO improve this assertions
+        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json->array);
+        $this->assertEquals(2, $json->array[0]);
+        $this->assertEquals(3, $json->array[1]);
         $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json->object);
         $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json->object->object);
-        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json->object->object->array);
     }
 
-    public function testCreateJsonArray()
+    public function testCreateJsonOnlyArray()
     {
         $json = new JsonObject('["a","b"]');
 
-        //@TODO improve this assertions
-        $this->assertInstanceOf('Asagalo\JsonHandler\JsonObject', $json);
+        $this->assertSame('a', $json[0]);
+        $this->assertSame('b', $json[1]);
+
+        $this->assertSame(['a','b'], $json->toArray());
+    }
+
+    public function testCreateJsonOnlyInt()
+    {
+        $json1 = new JsonObject(1);
+        $json2 = new JsonObject(2);
+        $json3 = new JsonObject(3);
+
+        $this->assertSame(1, $json1[0]);
+        $this->assertSame(2, $json2[0]);
+        $this->assertSame(3, $json3[0]);
+
+        $this->assertSame([1], $json1->toArray());
+        $this->assertSame([2], $json2->toArray());
+        $this->assertSame([3], $json3->toArray());
+    }
+
+    public function testCreateJsonOnlyString()
+    {
+        $json1 = new JsonObject('"string"');
+        $json2 = new JsonObject('"john"');
+
+        $this->assertSame('string', $json1[0]);
+        $this->assertSame('john', $json2[0]);
+        $this->assertSame(["string"], $json1->toArray());
+        $this->assertSame(["john"], $json2->toArray());
     }
 }

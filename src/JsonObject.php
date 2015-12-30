@@ -12,6 +12,11 @@ class JsonObject implements \IteratorAggregate, \ArrayAccess
     protected $data;
 
     /**
+    * @var array json raw data
+    */
+    protected $rawData;
+
+    /**
      * @var boolean
      **/
     protected $valid = true;
@@ -30,15 +35,14 @@ class JsonObject implements \IteratorAggregate, \ArrayAccess
     {
         if(is_array($data) || is_object($data)) {
             $this->buildData((array) $data);
-            return ;
-        }
-
-        try {
-            $this->buildData($this->jsonToArray($data));
-        } catch (\InvalidArgumentException $e) {
-            $this->valid        = false;
-            $this->errorMessage = $e->getMessage();
-            $this->errorCode    = $e->getCode();
+        } else {
+            try {
+                $this->buildData($this->jsonToArray($data));
+            } catch (\InvalidArgumentException $e) {
+                $this->valid        = false;
+                $this->errorMessage = $e->getMessage();
+                $this->errorCode    = $e->getCode();
+            }
         }
     }
 
@@ -69,7 +73,7 @@ class JsonObject implements \IteratorAggregate, \ArrayAccess
      **/
     public function toArray()
     {
-        return $this->data;
+        return $this->rawData;
     }
 
     /**
@@ -109,6 +113,8 @@ class JsonObject implements \IteratorAggregate, \ArrayAccess
      */
     private function buildData($data)
     {
+        $this->rawData = $data;
+
         foreach ($data as $key => $value) {
 
             if(is_object($value)) {
